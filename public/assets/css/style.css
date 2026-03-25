@@ -41,7 +41,6 @@ input,
 textarea {
     font-family: inherit;
     /* Garante que herdem a fonte Inter */
-    border: none;
     outline: none;
     /* Remove aquela borda azul ao clicar */
     background: none;
