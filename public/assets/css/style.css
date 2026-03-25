@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+/* 1. Reset Geral: Remove margin, padding e define box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Garante que padding não aumente o tamanho dos elementos */
+    -webkit-font-smoothing: antialiased;
+    /* Deixa a fonte Inter mais nítida no Mac/iOS */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 2. Reset de Tags Específicas */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #fafaff;
+    /* Sua cor de fundo clara */
+    color: #1c1c1c;
+    /* Sua cor de texto escura */
+    line-height: 1.5;
+    /* Melhora a leitura */
+}
+
+a {
+    text-decoration: none;
+    /* Remove o underline dos links */
+    color: inherit;
+    /* Faz o link herdar a cor do texto pai */
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+button,
+input,
+textarea {
+    font-family: inherit;
+    /* Garante que herdem a fonte Inter */
+    border: none;
+    outline: none;
+    /* Remove aquela borda azul ao clicar */
+    background: none;
+}
+
+img {
+    max-width: 100%;
+    /* Evita que imagens quebrem o layout */
+    display: block;
+}
+
+/* 3. Helper para o seu estilo minimalista (Opcional) */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
