@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2>Edit</h2>
+    <h2>Editar Usuário</h2>
 
     @if (session()->has('message'))
         {{ session()->get('message') }}
