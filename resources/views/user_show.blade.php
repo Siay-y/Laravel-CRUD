@@ -12,6 +12,7 @@
         <input type="text" name="lastName" value="{{ $user->lastName }}" readonly>
         <input type="text" name="email" value="{{ $user->email }}" readonly>
 
+        <a href="{{ route('users.index') }}">Voltar</a>
         <button type="submit">Deletar</button>
     </form>
 

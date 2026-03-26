@@ -15,6 +15,8 @@
         <input type="text" name="lastName" placeholder="Seu Sobrenome" value="Example">
         <input type="password" name="password" placeholder="Sua Senha" value="123456">
         <input type="email" name="email" placeholder="Seu E-mail" value="example@example.com">
+
+        <a href="{{ route('users.index') }}">Voltar</a>
         <button type="submit">Cadastrar</button>
     </form>
 
