@@ -72,6 +72,9 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if (!$request->input('firstName') || !$request->input('lastName') || !$request->input('email'))
+            return redirect()->back()->with('message', 'Preencha todos os campos!')->with('type', 'error');
+
         $updated = $this->user->where('id', $id)->update($request->except(['_token', '_method']));
 
         if ($updated)
