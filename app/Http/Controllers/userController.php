@@ -17,10 +17,11 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->user->all();
-        return view('users', ['users' => $users]);
+        $perPage = $request->input('per_page', 5);
+        $users = $this->user->paginate($perPage)->appends(['per_page' => $perPage]);
+        return view('users', ['users' => $users, 'perPage' => $perPage]);
     }
 
     /**

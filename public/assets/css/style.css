@@ -285,7 +285,7 @@ h2 {
 
 table {
     width: 100%;
-    border-radius: 4px;
+    border-radius: 4px 4px 0 0;
     border-collapse: collapse;
     box-shadow: var(--shadow-md);
     overflow: hidden;
@@ -755,7 +755,83 @@ tbody tr:hover .icons {
     transform: translateY(-1px);
 }
 
-/* ===== 12.3 Footer ===== */
+/* ===== 12.3 Pagination ===== */
+
+.pagination-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: var(--bg-card);
+    border-radius: 0 0 4px 4px;
+    box-shadow: var(--shadow-md);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.pagination-per-page {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.pagination-per-page select {
+    padding: 0.3rem 0.5rem;
+    border: 1px solid var(--border-input);
+    border-radius: 4px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.pagination-per-page select:focus {
+    border-color: var(--bg-accent);
+    outline: none;
+}
+
+.pagination-info {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--border-input);
+    border-radius: 4px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pagination-btn:hover {
+    border-color: var(--border-input-hover);
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.pagination-btn.disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* ===== 12.4 Footer ===== */
 
 .site-footer {
     border-top: 1px solid var(--border-color);

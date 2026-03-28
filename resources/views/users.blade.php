@@ -58,9 +58,62 @@
             </tbody>
         </table>
 
-        <div class="buttons">
-            <a href="{{ route('home') }}">Voltar</a>
+        <div class="pagination-bar">
+            <div class="pagination-per-page">
+                <span>Exibindo</span>
+                <select id="perPageSelect" onchange="changePerPage(this.value)">
+                    @foreach ([5, 10, 15, 100] as $option)
+                        <option value="{{ $option }}" {{ $perPage == $option ? 'selected' : '' }}>
+                            {{ $option }}
+                        </option>
+                    @endforeach
+                </select>
+                <span>por página</span>
+            </div>
+
+            <div class="pagination-info">
+                {{ $users->firstItem() ?? 0 }}–{{ $users->lastItem() ?? 0 }} de {{ $users->total() }}
+            </div>
+
+            <div class="pagination-nav">
+                @if ($users->onFirstPage())
+                    <span class="pagination-btn disabled">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                        </svg>
+                    </span>
+                @else
+                    <a href="{{ $users->previousPageUrl() }}" class="pagination-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                        </svg>
+                    </a>
+                @endif
+
+                @if ($users->hasMorePages())
+                    <a href="{{ $users->nextPageUrl() }}" class="pagination-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                        </svg>
+                    </a>
+                @else
+                    <span class="pagination-btn disabled">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                        </svg>
+                    </span>
+                @endif
+            </div>
         </div>
+
+        <script>
+            function changePerPage(value) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('per_page', value);
+                url.searchParams.delete('page');
+                window.location.href = url.toString();
+            }
+        </script>
     @else
         <div class="empty-state">
             <div class="empty-state-icon">
