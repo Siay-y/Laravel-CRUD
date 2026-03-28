@@ -54,7 +54,186 @@ img {
 
 /* 3. Helper para o seu estilo minimalista (Opcional) */
 .container {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 50vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    margin: auto;
     padding: 2rem;
+}
+
+.icons svg {
+    width: 2rem;
+    height: 2rem;
+
+    padding: 0.3rem;
+    color: #1c1c1c;
+}
+
+.cards {
+    display: flex;
+    gap: 1rem;
+
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    box-shadow: 2px 9px 18px -3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+
+    border-radius: 4px;
+    border-collapse: collapse;
+
+    box-shadow: -4px 9px 50px -3px rgba(0, 0, 0, 0.1)
+}
+
+table th {
+    padding: 0.8rem 1rem;
+    background: #2e2e2e;
+    color: #fafaff;
+    text-align: left;
+}
+
+table th:first-child {
+    border-radius: 4px 0 0 4px;
+}
+
+table th:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+
+table td {
+    padding: 0.8rem 1rem;
+}
+
+.user-data {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.user-data-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.input-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-left: 0.4rem;
+}
+
+.user-data input {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input-title input:read-only {
+    border-color: #dbdbdb;
+    color: #787878;
+}
+
+.buttons {
+    display: flex;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.buttons a {
+    padding: 0.5rem 2rem;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 4px;
+
+    box-shadow: 2px 9px 18px -3px rgba(0, 0, 0, 0.1);
+
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.buttons a:hover {
+    transform: scale(1.05);
+}
+
+.buttons button {
+    padding: 0.5rem 2rem;
+    border: 1px solid #2e2e2e;
+    border-radius: 4px;
+    background-color: #2e2e2e;
+    color: #fafaff;
+
+    box-shadow: 2px 9px 18px -3px rgba(0, 0, 0, 0.1);
+
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.buttons button:hover {
+    transform: scale(1.05);
+}
+
+.buttons .delete {
+    background-color: #f81f1f;
+    border-color: #f81f1f;
+
+    box-shadow: 2px 9px 18px -3px rgba(0, 0, 0, 0.1);
+
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.buttons .delete:hover {
+    transform: scale(1.05);
+}
+
+.icons {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.icons svg {
+    color: #2e2e2e;
+
+    transition: all 0.2s ease;
+}
+
+.icons svg:hover {
+    color: #fafaff;
+    background-color: #2e2e2e;
+    border-radius: 4px;
+}
+
+.main-title svg {
+    transition: all 0.2s ease;
+}
+
+.main-title svg:hover {
+    transform: scale(1.05);
+}
+
+.icons {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+tbody tr:hover .icons {
+    opacity: 1;
+}
+
+tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: #f0f0f0;
 }
