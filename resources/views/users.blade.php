@@ -2,11 +2,14 @@
 
 @section('content')
 
-    <div class="main-title" style="display: flex; align-items: center; justify-content: space-between;">
-        <h2 style="margin-bottom: 0;">Lista de Usuários</h2>
-        <a href="{{ route('users.create') }}">
-            <svg style="padding: 0.3rem; background-color: #000; border-radius: 4px; color: #fff;"
-                xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-lg"
+    <div class="main-title">
+        <div>
+            <h2>Lista de Usuários</h2>
+            <p class="page-subtitle">Visualize e gerencie os usuários cadastrados.</p>
+        </div>
+
+        <a href="{{ route('users.create') }}" class="icon-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg"
                 viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                     d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
@@ -16,7 +19,7 @@
 
     <hr>
 
-    <table cellpadding="8" cellspacing="0" style="width: 100%">
+    <table>
         <thead>
             <tr>
                 <th>Nome</th>
@@ -26,7 +29,7 @@
         </thead>
         <tbody>
             @foreach ($users as $user)
-                <tr style="border-bottom: 1px solid #ccc; cursor: pointer;" ondblclick="window.location='{{ route('users.show', ['user' => $user->id]) }}'">
+                <tr ondblclick="window.location='{{ route('users.show', ['user' => $user->id]) }}'">
                     <td>{{ $user->firstName }} {{ $user->lastName }}</td>
                     <td>{{ $user->email }}</td>
                     <td>

@@ -1,32 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-/* 1. Reset Geral: Remove margin, padding e define box-sizing */
+/* ===== 1. Reset Geral ===== */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* Garante que padding não aumente o tamanho dos elementos */
     -webkit-font-smoothing: antialiased;
-    /* Deixa a fonte Inter mais nítida no Mac/iOS */
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* 2. Reset de Tags Específicas */
+/* ===== 2. Base ===== */
+
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #fafaff;
-    /* Sua cor de fundo clara */
+    background-color: #f2f2f7;
     color: #1c1c1c;
-    /* Sua cor de texto escura */
-    line-height: 1.5;
-    /* Melhora a leitura */
+    line-height: 1.6;
+    min-height: 100vh;
 }
 
 a {
     text-decoration: none;
-    /* Remove o underline dos links */
     color: inherit;
-    /* Faz o link herdar a cor do texto pai */
 }
 
 ul {
@@ -35,89 +31,232 @@ ul {
     margin: 0;
 }
 
-
 button,
 input,
 textarea {
     font-family: inherit;
-    /* Garante que herdem a fonte Inter */
     outline: none;
-    /* Remove aquela borda azul ao clicar */
     background: none;
+    border: none;
 }
 
 img {
     max-width: 100%;
-    /* Evita que imagens quebrem o layout */
     display: block;
 }
 
-/* 3. Helper para o seu estilo minimalista (Opcional) */
+hr {
+    border: none;
+    border-top: 1px solid #e5e5ea;
+    margin: 0.5rem 0;
+}
+
+/* ===== 3. Layout ===== */
+
 .container {
-    max-width: 50vw;
-    height: 100vh;
+    max-width: 100vh;
+    min-height: 100vh;
 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 
-    margin: auto;
-    padding: 2rem;
+    margin: 0 auto;
+    padding: 3rem 2.5rem;
+
+    animation: fadeInUp 0.4s ease;
 }
 
-.icons svg {
-    width: 2rem;
-    height: 2rem;
+.content-card {
+    background: #fff;
+    border: 1px solid #e5e5ea;
+    border-radius: 4px;
+    padding: 2rem 2rem 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04),
+        0 6px 16px rgba(0, 0, 0, 0.06);
+}
 
-    padding: 0.3rem;
+/* ===== 4. Tipografia ===== */
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     color: #1c1c1c;
 }
 
+.page-subtitle {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 0.25rem;
+}
+
+.section-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #888;
+    margin-bottom: 0.25rem;
+}
+
+/* ===== 5. Main Title Bar ===== */
+
+.main-title {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.main-title h2 {
+    margin-bottom: 0;
+}
+
+.main-title svg {
+    transition: all 0.2s ease;
+}
+
+.main-title svg:hover {
+    transform: scale(1.08);
+}
+
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem;
+    background-color: #2e2e2e;
+    border-radius: 4px;
+    color: #fff;
+    transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+    background-color: #444;
+    transform: scale(1.08);
+}
+
+/* ===== 6. Home Cards ===== */
+
 .cards {
     display: flex;
+    align-items: center;
     gap: 1rem;
 
-    padding: 1rem;
-    border: 1px solid #ccc;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid #e5e5ea;
     border-radius: 4px;
+    background: #fff;
 
-    box-shadow: 2px 9px 18px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     cursor: pointer;
+    transition: all 0.25s ease;
 }
+
+.cards:hover {
+    border-color: #ccc;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.cards svg {
+    width: 28px;
+    height: 28px;
+    color: #2e2e2e;
+    flex-shrink: 0;
+}
+
+.cards span {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #1c1c1c;
+}
+
+/* ===== 7. Tabela ===== */
 
 table {
     width: 100%;
-
     border-radius: 4px;
     border-collapse: collapse;
-
-    box-shadow: -4px 9px 50px -3px rgba(0, 0, 0, 0.1)
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04),
+        0 6px 16px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
 }
 
 table th {
-    padding: 0.8rem 1rem;
+    padding: 0.75rem 1rem;
     background: #2e2e2e;
     color: #fafaff;
     text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 table th:first-child {
-    border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 0;
 }
 
 table th:last-child {
-    border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 0 0;
 }
-
 
 table td {
-    padding: 0.8rem 1rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    color: #333;
 }
+
+tbody tr {
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: #f7f7fa;
+}
+
+/* ===== 8. Ícones da Tabela ===== */
+
+.icons {
+    display: flex;
+    gap: 0.3rem;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.icons svg {
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0.25rem;
+    color: #2e2e2e;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.icons svg:hover {
+    color: #fafaff;
+    background-color: #2e2e2e;
+}
+
+tbody tr:hover .icons {
+    opacity: 1;
+}
+
+/* ===== 9. Formulários ===== */
 
 .user-data {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
 }
 
 .user-data-row {
@@ -128,112 +267,275 @@ table td {
 .input-title {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
-    margin-left: 0.4rem;
+    gap: 0.35rem;
+}
+
+.input-title label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .user-data input {
-    padding: 1rem;
-    border: 1px solid #ccc;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: 0.95rem;
+    color: #1c1c1c;
+    background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-data input::placeholder {
+    color: #bbb;
+}
+
+.user-data input:focus {
+    border-color: #2e2e2e;
+    box-shadow: 0 0 0 3px rgba(46, 46, 46, 0.08);
 }
 
 .input-title input:read-only {
-    border-color: #dbdbdb;
-    color: #787878;
+    border-color: #e5e5ea;
+    background: #f9f9fb;
+    color: #888;
+    cursor: default;
 }
+
+.input-title input:read-only:focus {
+    border-color: #e5e5ea;
+    box-shadow: none;
+}
+
+/* ===== 10. Botões ===== */
 
 .buttons {
     display: flex;
-    margin-top: 1rem;
-    gap: 1rem;
+    margin-top: 1.5rem;
+    gap: 0.75rem;
 }
 
 .buttons a {
-    padding: 0.5rem 2rem;
-    border: 1px solid #ccc;
+    padding: 0.6rem 1.75rem;
+    border: 1px solid #ddd;
     background-color: #fff;
     border-radius: 4px;
-
-    box-shadow: 2px 9px 18px -3px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555;
 
     transition: all 0.2s ease;
     cursor: pointer;
 }
 
 .buttons a:hover {
-    transform: scale(1.05);
+    border-color: #bbb;
+    background-color: #f7f7fa;
+    color: #1c1c1c;
 }
 
 .buttons button {
-    padding: 0.5rem 2rem;
+    padding: 0.6rem 1.75rem;
     border: 1px solid #2e2e2e;
     border-radius: 4px;
     background-color: #2e2e2e;
     color: #fafaff;
-
-    box-shadow: 2px 9px 18px -3px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
 
     transition: all 0.2s ease;
     cursor: pointer;
 }
 
 .buttons button:hover {
-    transform: scale(1.05);
+    background-color: #444;
+    border-color: #444;
+    box-shadow: 0 4px 12px rgba(46, 46, 46, 0.25);
 }
 
 .buttons .delete {
-    background-color: #f81f1f;
-    border-color: #f81f1f;
-
-    box-shadow: 2px 9px 18px -3px rgba(0, 0, 0, 0.1);
-
-    transition: all 0.2s ease;
-    cursor: pointer;
+    background-color: #ef5350;
+    border-color: #ef5350;
 }
 
 .buttons .delete:hover {
-    transform: scale(1.05);
+    background-color: #e53935;
+    border-color: #e53935;
+    box-shadow: 0 4px 12px rgba(239, 83, 80, 0.3);
 }
 
-.icons {
+/* ===== 11. Modal Component ===== */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    backdrop-filter: blur(4px);
     display: flex;
-    gap: 0.3rem;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: overlayFadeIn 0.3s ease;
 }
 
-.icons svg {
-    color: #2e2e2e;
-
-    transition: all 0.2s ease;
-}
-
-.icons svg:hover {
-    color: #fafaff;
-    background-color: #2e2e2e;
+.modal-card {
+    background: #fff;
     border-radius: 4px;
+    padding: 2.5rem 2rem 2rem;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.main-title svg {
+.modal-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.2rem;
+}
+
+.modal-icon--success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 3px solid #4caf50;
+}
+
+.modal-icon--error {
+    background: #ffebee;
+    color: #c62828;
+    border: 3px solid #ef5350;
+}
+
+.modal-icon--confirm {
+    background: #fff8e1;
+    color: #e65100;
+    border: 3px solid #ffa726;
+}
+
+.modal-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1c1c1c;
+    margin-bottom: 0.5rem;
+}
+
+.modal-message {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 1.8rem;
+    line-height: 1.5;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.modal-btn {
+    padding: 0.6rem 2rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
     transition: all 0.2s ease;
+    font-family: inherit;
 }
 
-.main-title svg:hover {
-    transform: scale(1.05);
+.modal-btn:hover {
+    transform: scale(1.04);
 }
 
-.icons {
-    opacity: 0;
-    transition: opacity 0.3s ease;
+.modal-btn--primary {
+    background: #2e2e2e;
+    color: #fafaff;
 }
 
-tbody tr:hover .icons {
-    opacity: 1;
+.modal-btn--primary:hover {
+    background: #444;
 }
 
-tbody tr {
-    transition: background-color 0.3s ease;
+.modal-btn--cancel {
+    background: #e0e0e0;
+    color: #333;
 }
 
-tbody tr:hover {
-    background-color: #f0f0f0;
+.modal-btn--cancel:hover {
+    background: #d0d0d0;
+}
+
+.modal-btn--danger {
+    background: #ef5350;
+    color: #fff;
+}
+
+.modal-btn--danger:hover {
+    background: #e53935;
+}
+
+/* ===== 12. Animations ===== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes overlayFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes overlayFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.7);
+    }
 }
