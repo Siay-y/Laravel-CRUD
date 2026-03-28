@@ -14,6 +14,13 @@ class UserController extends Controller
         $this->user = new User();
     }
 
+    private function isApiRequest(Request $request): bool
+    {
+        return $request->expectsJson() || 
+               $request->ajax() || 
+               str_contains($request->header('referer') ?? '', '/docs');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -21,6 +28,11 @@ class UserController extends Controller
     {
         $perPage = $request->input('per_page', 5);
         $users = $this->user->paginate($perPage)->appends(['per_page' => $perPage]);
+
+        if ($this->isApiRequest($request)) {
+            return response()->json($users);
+        }
+
         return view('users', ['users' => $users, 'perPage' => $perPage]);
     }
 
@@ -37,8 +49,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->input('firstName') || !$request->input('lastName') || !$request->input('email') || !$request->input('password'))
+        if (!$request->input('firstName') || !$request->input('lastName') || !$request->input('email') || !$request->input('password')) {
+            if ($this->isApiRequest($request)) {
+                return response()->json(['success' => false, 'message' => 'Preencha todos os campos!'], 400);
+            }
             return redirect()->back()->with('message', 'Preencha todos os campos!')->with('type', 'error');
+        }
 
         $created = $this->user->create([
             'firstName' => $request->input('firstName'),
@@ -46,6 +62,13 @@ class UserController extends Controller
             'password' => password_hash($request->input('password'), PASSWORD_DEFAULT),
             'email' => $request->input('email'),
         ]);
+
+        if ($this->isApiRequest($request)) {
+            if ($created) {
+                return response()->json(['success' => true, 'message' => 'Usuário criado com sucesso!', 'data' => $created], 201);
+            }
+            return response()->json(['success' => false, 'message' => 'Erro ao criar usuário!'], 500);
+        }
 
         if ($created)
             return redirect()->back()->with('message', 'Usuário criado com sucesso!')->with('type', 'success');
@@ -55,8 +78,12 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(Request $request, User $user)
     {
+        if ($this->isApiRequest($request)) {
+            return response()->json($user);
+        }
+
         return view('user_show', ['user' => $user]);
     }
 
@@ -73,10 +100,22 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        if (!$request->input('firstName') || !$request->input('lastName') || !$request->input('email'))
+        if (!$request->input('firstName') || !$request->input('lastName') || !$request->input('email')) {
+            if ($this->isApiRequest($request)) {
+                return response()->json(['success' => false, 'message' => 'Preencha todos os campos!'], 400);
+            }
             return redirect()->back()->with('message', 'Preencha todos os campos!')->with('type', 'error');
+        }
 
         $updated = $this->user->where('id', $id)->update($request->except(['_token', '_method']));
+
+        if ($this->isApiRequest($request)) {
+            if ($updated) {
+                $user = $this->user->find($id);
+                return response()->json(['success' => true, 'message' => 'Informações do usuário alteradas com sucesso!', 'data' => $user]);
+            }
+            return response()->json(['success' => false, 'message' => 'Erro ao alterar informações do usuário!'], 500);
+        }
 
         if ($updated)
             return redirect()->back()->with('message', 'Informações do usuário alteradas com sucesso!')->with('type', 'success');
@@ -91,7 +130,7 @@ class UserController extends Controller
         try {
             $deleted = $this->user->where('id', $id)->delete();
 
-            if ($request->ajax()) {
+            if ($this->isApiRequest($request)) {
                 if ($deleted) {
                     return response()->json(['success' => true, 'message' => 'Usuário removido com sucesso!']);
                 }
@@ -100,7 +139,7 @@ class UserController extends Controller
 
             return redirect()->route('users.index');
         } catch (\Exception $e) {
-            if ($request->ajax()) {
+            if ($this->isApiRequest($request)) {
                 return response()->json(['success' => false, 'message' => 'Erro ao remover o usuário: ' . $e->getMessage()], 500);
             }
 

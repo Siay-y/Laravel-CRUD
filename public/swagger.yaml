@@ -1,0 +1,435 @@
+openapi: 3.0.3
+
+info:
+  title: CRUD Laravel API
+  description: |
+    API RESTful para gerenciamento de usuários.  
+    Desenvolvido com **Laravel** seguindo o padrão **Resource Controller**.
+  version: 1.0.0
+  contact:
+    name: Luiz Henrique Porfírio Santos
+
+servers:
+  - url: /
+    description: Servidor Atual
+
+tags:
+  - name: Home
+    description: Página inicial da aplicação
+  - name: Users
+    description: Gerenciamento completo de usuários (CRUD)
+
+paths:
+  /:
+    get:
+      tags:
+        - Home
+      summary: Página inicial
+      description: Retorna a view da página inicial da aplicação.
+      operationId: home.index
+      responses:
+        "200":
+          description: Página inicial renderizada com sucesso.
+          content:
+            text/html:
+              schema:
+                type: string
+
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Listar usuários
+      description: Retorna a listagem paginada de todos os usuários cadastrados.
+      operationId: users.index
+      parameters:
+        - name: per_page
+          in: query
+          description: Quantidade de registros por página.
+          required: false
+          schema:
+            type: integer
+            enum: [5, 10, 15, 100]
+            default: 5
+        - name: page
+          in: query
+          description: Número da página.
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        "200":
+          description: Listagem de usuários retornada com sucesso.
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  current_page:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/UserResponse"
+
+    post:
+      tags:
+        - Users
+      summary: Criar usuário
+      description: |
+        Cria um novo usuário no sistema.  
+        Todos os campos são obrigatórios. Retorna redirect com mensagem de sucesso ou erro via flash session.
+      operationId: users.store
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/UserCreateRequest"
+      responses:
+        "201":
+          description: Usuário criado com sucesso (resposta JSON).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Usuário criado com sucesso!"
+                  data:
+                    $ref: "#/components/schemas/UserResponse"
+        "302":
+          description: Redirect de volta com mensagem de sucesso ou erro.
+          headers:
+            Location:
+              description: URL de redirect.
+              schema:
+                type: string
+        "400":
+          description: Erro de validação.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Preencha todos os campos!"
+        "422":
+          description: Campos obrigatórios não preenchidos.
+
+  /users/create:
+    get:
+      tags:
+        - Users
+      summary: Formulário de criação
+      description: Retorna a view com o formulário para criação de um novo usuário.
+      operationId: users.create
+      responses:
+        "200":
+          description: Formulário de criação renderizado com sucesso.
+          content:
+            text/html:
+              schema:
+                type: string
+
+  /users/{user}:
+    get:
+      tags:
+        - Users
+      summary: Visualizar usuário
+      description: Retorna a view com os dados detalhados de um usuário específico.
+      operationId: users.show
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          description: Dados do usuário retornados com sucesso.
+          content:
+            text/html:
+              schema:
+                type: string
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "404":
+          description: Usuário não encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    put:
+      tags:
+        - Users
+      summary: Atualizar usuário
+      description: |
+        Atualiza os dados de um usuário existente.  
+        Os campos `firstName`, `lastName` e `email` são obrigatórios.
+      operationId: users.update
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/UserUpdateRequest"
+      responses:
+        "200":
+          description: Usuário atualizado com sucesso (resposta JSON).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Informações do usuário alteradas com sucesso!"
+                  data:
+                    $ref: "#/components/schemas/UserResponse"
+        "302":
+          description: Redirect de volta com mensagem de sucesso ou erro.
+          headers:
+            Location:
+              description: URL de redirect.
+              schema:
+                type: string
+        "400":
+          description: Erro de validação.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Preencha todos os campos!"
+        "404":
+          description: Usuário não encontrado.
+        "422":
+          description: Campos obrigatórios não preenchidos.
+
+    delete:
+      tags:
+        - Users
+      summary: Remover usuário
+      description: |
+        Remove um usuário do sistema.  
+        - **Requisição AJAX**: Retorna JSON com `success` e `message`.  
+        - **Requisição padrão**: Redireciona para a listagem de usuários.
+      operationId: users.destroy
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+        - name: X-Requested-With
+          in: header
+          description: Enviar `XMLHttpRequest` para resposta JSON.
+          required: false
+          schema:
+            type: string
+            example: XMLHttpRequest
+      responses:
+        "200":
+          description: Usuário removido com sucesso (resposta AJAX).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteSuccessResponse"
+        "302":
+          description: Redirect para listagem (requisição padrão).
+          headers:
+            Location:
+              description: URL da listagem de usuários.
+              schema:
+                type: string
+        "404":
+          description: Usuário não encontrado.
+        "500":
+          description: Erro ao remover o usuário.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteErrorResponse"
+
+  /users/{user}/edit:
+    get:
+      tags:
+        - Users
+      summary: Formulário de edição
+      description: Retorna a view com o formulário para edição dos dados de um usuário existente.
+      operationId: users.edit
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          description: Formulário de edição renderizado com sucesso.
+          content:
+            text/html:
+              schema:
+                type: string
+        "404":
+          description: Usuário não encontrado.
+
+components:
+  parameters:
+    UserId:
+      name: user
+      in: path
+      description: ID único do usuário.
+      required: true
+      schema:
+        type: integer
+        example: 1
+
+  schemas:
+    UserCreateRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - password
+        - _token
+      properties:
+        _token:
+          type: string
+          description: Token CSRF do Laravel.
+          example: "abc123def456"
+        firstName:
+          type: string
+          description: Primeiro nome do usuário.
+          example: Luiz
+          maxLength: 255
+        lastName:
+          type: string
+          description: Sobrenome do usuário.
+          example: Santos
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          description: E-mail do usuário (deve ser único).
+          example: luiz@email.com
+          maxLength: 255
+        password:
+          type: string
+          format: password
+          description: Senha do usuário.
+          example: "senha123"
+          minLength: 1
+
+    UserUpdateRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - _token
+        - _method
+      properties:
+        _token:
+          type: string
+          description: Token CSRF do Laravel.
+          example: "abc123def456"
+        _method:
+          type: string
+          description: Spoofing de método HTTP para PUT.
+          enum: [PUT]
+          example: PUT
+        firstName:
+          type: string
+          description: Primeiro nome do usuário.
+          example: Luiz
+          maxLength: 255
+        lastName:
+          type: string
+          description: Sobrenome do usuário.
+          example: Santos
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          description: E-mail do usuário.
+          example: luiz@email.com
+          maxLength: 255
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID único do usuário.
+          example: 1
+        firstName:
+          type: string
+          description: Primeiro nome do usuário.
+          example: Luiz
+        lastName:
+          type: string
+          description: Sobrenome do usuário.
+          example: Santos
+        email:
+          type: string
+          format: email
+          description: E-mail do usuário.
+          example: luiz@email.com
+        email_verified_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Data de verificação do e-mail.
+          example: null
+        created_at:
+          type: string
+          format: date-time
+          description: Data de criação do registro.
+          example: "2026-03-28T18:00:00.000000Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Data da última atualização.
+          example: "2026-03-28T18:00:00.000000Z"
+
+    DeleteSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Usuário removido com sucesso!"
+
+    DeleteErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Erro ao remover o usuário."
+
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "No query results for model [App\\Models\\User] 999"

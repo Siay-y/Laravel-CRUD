@@ -8,3 +8,6 @@ Route::get('/', [Homecontroller::class, 'index'])->name('home');
 
 // Usuário
 Route::resource('users', UserController::class);
+
+// Documentação da API
+Route::get('/docs', fn () => view('swagger'))->name('docs');
