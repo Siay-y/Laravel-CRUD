@@ -36,6 +36,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        if (!$request->input('firstName') || !$request->input('lastName') || !$request->input('email') || !$request->input('password'))
+            return redirect()->back()->with('message', 'Preencha todos os campos!')->with('type', 'error');
+
         $created = $this->user->create([
             'firstName' => $request->input('firstName'),
             'lastName' => $request->input('lastName'),
@@ -44,8 +47,8 @@ class UserController extends Controller
         ]);
 
         if ($created)
-            return redirect()->back()->with('message', 'Usuário criado com sucesso!');
-        return redirect()->back()->with('message', 'Erro ao criar usuário!');
+            return redirect()->back()->with('message', 'Usuário criado com sucesso!')->with('type', 'success');
+        return redirect()->back()->with('message', 'Erro ao criar usuário!')->with('type', 'error');
     }
 
     /**
@@ -72,17 +75,32 @@ class UserController extends Controller
         $updated = $this->user->where('id', $id)->update($request->except(['_token', '_method']));
 
         if ($updated)
-            return redirect()->back()->with('message', 'Informações do usuário alteradas com sucesso!');
-        return redirect()->back()->with('message', 'Erro ao alterar informações do usuário!');
+            return redirect()->back()->with('message', 'Informações do usuário alteradas com sucesso!')->with('type', 'success');
+        return redirect()->back()->with('message', 'Erro ao alterar informações do usuário!')->with('type', 'error');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
-        $deleted = $this->user->where('id', $id)->delete();
+        try {
+            $deleted = $this->user->where('id', $id)->delete();
 
-        return redirect()->route('users.index');
+            if ($request->ajax()) {
+                if ($deleted) {
+                    return response()->json(['success' => true, 'message' => 'Usuário removido com sucesso!']);
+                }
+                return response()->json(['success' => false, 'message' => 'Erro ao remover o usuário.'], 500);
+            }
+
+            return redirect()->route('users.index');
+        } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json(['success' => false, 'message' => 'Erro ao remover o usuário: ' . $e->getMessage()], 500);
+            }
+
+            return redirect()->route('users.index');
+        }
     }
 }

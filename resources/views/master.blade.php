@@ -12,6 +12,8 @@
 </head>
 
 <body>
+    @include('components.header')
+
     <section class="container">
         @yield('content')
     </section>

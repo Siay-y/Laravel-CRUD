@@ -56,7 +56,7 @@
             'modalType' => session('type', 'success'),
             'modalTitle' => session('type', 'success') === 'error' ? 'Erro' : 'Sucesso',
             'modalMessage' => session('message'),
-            'modalRedirect' => route('users.index'),
+            'modalRedirect' => session('type', 'success') === 'error' ? null : route('users.index'),
         ])
     @endif
 
