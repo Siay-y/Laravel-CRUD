@@ -27,7 +27,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 5);
-        $users = $this->user->paginate($perPage)->appends(['per_page' => $perPage]);
+        $users = $this->user->orderBy('id', 'desc')->paginate($perPage)->appends(['per_page' => $perPage]);
 
         if ($this->isApiRequest($request)) {
             return response()->json($users);
